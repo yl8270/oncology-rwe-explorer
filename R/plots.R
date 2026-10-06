@@ -1,3 +1,7 @@
+vector_pdf_device <- function() {
+  if (isTRUE(capabilities("cairo"))) grDevices::cairo_pdf else grDevices::pdf
+}
+
 plot_theme <- function() ggplot2::theme_minimal(base_size = 12) +
   ggplot2::theme(panel.grid.minor = ggplot2::element_blank(), plot.title = ggplot2::element_text(face = "bold"),
                  legend.position = "bottom")

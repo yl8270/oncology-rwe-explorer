@@ -4,6 +4,8 @@
 
 **An interactive real-world oncology treatment-effect analysis platform built in R Shiny, demonstrated exclusively with independently authored synthetic data.**
 
+**[Open the interactive demo](https://yl8270.github.io/oncology-rwe-explorer/)** — no R installation or sign-in required. The online edition runs the same R analysis engine inside your browser using Shinylive/WebR. The first visit downloads the R runtime and packages; allow the app to finish loading before clicking **Run analysis**. Start with the default 2,500 records and 50 bootstrap resamples; larger runs depend on your device's memory and speed.
+
 Designed as a biostatistics / real-world evidence portfolio: inspect the cohort definition, compare baseline characteristics, diagnose weighting, estimate conditional survival, and examine model assumptions before interpreting a result. No NCDB records, private notebook outputs or patient data are included or required. There is no data-upload interface.
 
 ![Synthetic study overview](docs/preview-overview.jpg)
@@ -29,7 +31,7 @@ Rscript -e "shiny::runApp('.', host='127.0.0.1', port=3838)"
 
 Open `http://127.0.0.1:3838`, select a design, then click **Run analysis**. The default run generates 2,500 fictional records, fits the core PS model, applies stabilized IPTW and performs 50 facility bootstrap resamples. Use 200 resamples for a more stable demonstration CI. Changing controls leaves the last completed results visible until the next successful run; downloads always match the displayed run.
 
-The app needs `shiny`, `survival`, `ggplot2`, `jsonlite` and `htmltools`; tests use `testthat`. Installation occurs only when you explicitly run the installation script. The analysis itself makes no external data calls. `docs/package_versions.json` records the environment used for local validation. The generator fixes Mersenne-Twister / Inversion / Rejection locally and restores the caller RNG state and algorithm. Seed reproducibility assumes the same R/package versions; an exact cross-version numeric guarantee is not claimed.
+The app needs `shiny`, `survival`, `ggplot2`, `jsonlite`, `htmltools` and `zip`; tests use `testthat`. Installation occurs only when you explicitly run the installation script. The analysis itself makes no external data calls. `docs/package_versions.json` records the environment used for local validation. The generator fixes Mersenne-Twister / Inversion / Rejection locally and restores the caller RNG state and algorithm. Seed reproducibility assumes the same R/package versions; an exact cross-version numeric guarantee is not claimed.
 
 ## What you can explore
 
@@ -113,7 +115,7 @@ docs/                       audit, architecture, methods, QA and resume copy
 scripts/                    installation, generation, replay and validation
 tests/testthat/             independent statistical checks + Shiny tests
 www/style.css               responsive presentation
-.github/workflows/           CI validation on clean R environments
+.github/workflows/           statistical CI + GitHub Pages deployment
 outputs/                    generated locally; ignored by Git
 ```
 
@@ -121,7 +123,7 @@ outputs/                    generated locally; ignored by Git
 
 The project was rebuilt after a static code-only audit of four private oncology notebooks. Their patient-level files, outputs, absolute paths and original notebook code are excluded. The public repository retains the statistical ideas with explicitly documented corrections and scope changes. See [Notebook audit](docs/NOTEBOOK_AUDIT.md), [Architecture](docs/ARCHITECTURE.md), [Methods](docs/METHODS.md), [Validation](docs/VALIDATION.md), and [Resume description](docs/RESUME_PROJECT.md).
 
-The app is ready to run locally. Hosting on shinyapps.io, Posit Connect or a Shiny server is a separate publication step. GitHub Pages cannot execute a Shiny R server. The source is published at [yl8270/oncology-rwe-explorer](https://github.com/yl8270/oncology-rwe-explorer); it runs locally and is not a hosted Shiny service.
+The [online demo](https://yl8270.github.io/oncology-rwe-explorer/) is published with GitHub Pages and [Posit Shinylive](https://posit-dev.github.io/r-shinylive/). R runs in the visitor's browser through WebAssembly; GitHub serves static assets rather than an R server. The generator and statistical pipeline are shared with the native R version. Browser and native package versions differ and are recorded in each run manifest. See [Deployment](docs/DEPLOYMENT.md) for build instructions and runtime limitations. The source is published at [yl8270/oncology-rwe-explorer](https://github.com/yl8270/oncology-rwe-explorer).
 
 Official implementation references: [R survival Cox documentation](https://stat.ethz.ch/R-manual/R-devel/library/survival/html/coxph.html), [weighted survival documentation](https://stat.ethz.ch/R-manual/R-devel/library/survival/html/survfit.formula.html), and [Posit Shiny modules](https://shiny.posit.co/r/articles/improve/modules/).
 

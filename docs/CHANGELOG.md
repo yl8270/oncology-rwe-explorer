@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.0
+
+- Added a public browser R Shiny edition using Shinylive/WebR and automated GitHub Pages deployment.
+- Preserved the shared synthetic generator and statistical pipeline across native and browser R.
+- Replaced external ZIP invocation with the in-process zip package and added a 30-file bundle round-trip check.
+- Added a standard vector PDF fallback when Cairo is unavailable.
+- Added browser runtime labeling, deployment instructions and a live demo link.
+
 ## 1.1.0
 
 - Added an Overview workspace with declared designs, estimands, workflow and completed-run summary.

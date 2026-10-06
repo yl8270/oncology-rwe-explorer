@@ -51,7 +51,7 @@ run_analysis <- function(cfg = default_config(), progress = NULL) {
       "Positive post-landmark follow-up", "Finite positive selected weights", "Same N across Cox models"),
       passed = c(sum(flow$n_excluded) + nrow(d) == nrow(raw), !anyDuplicated(d$synthetic_id),
         all(d$time_months > 0), all(is.finite(d$weight) & d$weight > 0), all(cox$table$n == nrow(d)))))
-  result$manifest <- list(project = "Oncology RWE Explorer", engine_version = "1.1.0",
+  result$manifest <- list(project = "Oncology RWE Explorer", engine_version = "1.2.0",
     generated_at_utc = format(Sys.time(), tz = "UTC", usetz = TRUE), config = cfg,
     data_provenance = attr(raw, "provenance"), estimand = estimand_label(cfg),
     landmark_days = preset$landmark_days, horizon_months_after_landmark = cfg$horizon_months,
@@ -85,7 +85,7 @@ export_analysis <- function(result, directory, include_figures = FALSE) {
     figures <- list(survival = plot_survival(result), balance = plot_balance(result),
       propensity_overlap = plot_ps(result), cox = plot_forest(result$cox$table))
     for (nm in names(figures)) ggplot2::ggsave(file.path(directory, paste0(nm, ".pdf")), figures[[nm]],
-      width = 9, height = if (nm == "balance") 9 else 5.5, device = grDevices::cairo_pdf)
+      width = 9, height = if (nm == "balance") 9 else 5.5, device = vector_pdf_device())
   }
   utils::write.csv(result$raw, file.path(directory, "synthetic_generated.csv"), row.names = FALSE)
   utils::write.csv(result$data, file.path(directory, "synthetic_analysis.csv"), row.names = FALSE)
@@ -100,4 +100,13 @@ export_analysis <- function(result, directory, include_figures = FALSE) {
     file.path(directory, "RESULT_NOTES.txt"))
   write_analysis_report(result, file.path(directory, "analysis_report.html"))
   invisible(directory)
+}
+
+write_analysis_bundle <- function(result, file) {
+  folder <- tempfile("oncology-export-"); dir.create(folder)
+  on.exit(unlink(folder, recursive = TRUE), add = TRUE)
+  export_analysis(result, folder, include_figures = TRUE)
+  # Compiled in-process ZIP avoids an external executable in browser R.
+  zip::zipr(zipfile = file, files = list.files(folder), root = folder)
+  invisible(file)
 }

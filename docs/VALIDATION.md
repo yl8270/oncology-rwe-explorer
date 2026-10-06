@@ -4,7 +4,7 @@ Validated with R 4.4.3; exact package versions are in `package_versions.json`. E
 
 ## Automated checks
 
-`Rscript scripts/validate.R`: **19 test groups, 113 assertions passed; 0 failures, 0 errors, 0 warnings, 0 skipped tests.**
+`Rscript scripts/validate.R`: **20 test groups, 118 assertions passed; 0 failures, 0 errors, 0 warnings, 0 skipped tests.**
 
 - Deterministic generator, fictional IDs and caller RNG algorithm/state restoration, including an initially absent seed.
 - Strict landmark boundary, symmetric chemotherapy window, correct adjunct ordering and valid event coding. SCLC same-day IO rule checked separately.
@@ -42,8 +42,15 @@ Adjusted mean log-HR errors were below the prespecified 0.10 tolerance and impro
 - The browser-downloaded analysis ZIP opened successfully with **24 files** in the original 1.0.0 check; version 1.1.0 command-line export has **30 files**, including the HTML report, bootstrap failure audit and four PDFs. Its manifest, cohort and synthetic CSV reproduced the displayed seed and denominators; generated CSV had exactly 2,500 data rows. Browser downloads are additional local copies; the distributable source archive is assembled separately.
 - Command-line example exported all tables, escaped standalone report and survival/balance/PS/Cox vector PDFs. The public app does not need these generated outputs to start.
 
+## Browser R portability (1.2.0)
+
+- Shinylive 0.5.0 / assets 0.10.12 builds successfully with WebAssembly packages and only public app source staged.
+- The candidate browser R 4.6.0 run reproduced default DLBCL counts (1,564 individuals, 707 deaths), 50 successful bootstrap attempts, all five QC checks, and displayed weighted HR 0.81 (0.70–0.93); native R 4.4.3 weighted HR was 0.8081319. This is a rounded-result check, not a cross-version bitwise guarantee.
+- The portable in-process ZIP round-trip test verifies all 30 files, configuration, unrounded Cox values and synthetic-only CSV provenance. Browser download delivery has not been verified by that native test.
+- PDF export falls back to the base vector device when Cairo is absent.
+
 ## Interpretation boundaries
 
 The default core PS intentionally leaves some expanded-variable imbalance visible. This is not hidden by a green “model ran” status: diagnostics state residual SMD and the complete-case target. Bootstrap B=50 is labeled a quick demonstration. Survival curves omit naive weighted confidence bands; fixed-time CIs refit the PS. Clustered Cox CIs condition on the fitted weights. PH p values remain exploratory and uncalibrated for cluster/PS uncertainty. SCLC's 90-day landmark is a newly declared demonstration design.
 
-The GitHub CI workflow validates R 4.4.3 and the current release on Ubuntu 24.04. The initial clean-environment run exposed a missing `libuv` development library required by `fs`. The workflow now installs `libuv1-dev`, uses the configured Linux binary repository and verifies package availability after installation. Remote CI status is shown in the repository Actions tab. Local results above are independently verified; remote CI success is claimed only after its completed run. No hosted Shiny service is deployed.
+The GitHub CI workflow validates R 4.4.3 and the current release on Ubuntu 24.04. The initial clean-environment run exposed a missing `libuv` development library required by `fs`. The workflow now installs `libuv1-dev`, uses the configured Linux binary repository and verifies package availability after installation. Remote CI status is shown in the repository Actions tab. Local results above are independently verified; remote CI success is claimed only after its completed run. Version 1.2.0 adds a GitHub Pages browser R edition; its deployment workflow separately validates the engine and builds a Shinylive artifact. See `DEPLOYMENT.md`.

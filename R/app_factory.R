@@ -32,7 +32,9 @@ create_app <- function() {
           shiny::tabPanel("Survival", result_workspace(survival_ui("survival"))),
           shiny::tabPanel("Models & Subgroups", result_workspace(models_ui("models"))),
           shiny::tabPanel("Reproducibility", result_workspace(repro_ui("repro")))))),
-    shiny::div(class = "app-footer", "Synthetic demonstration • Reproducible R statistical engine • No registry data or uploads"))
+    shiny::div(class = "app-footer", if (grepl("wasm|emscripten", R.version$platform))
+      "Synthetic demonstration • R computations run in your browser • No registry data or uploads" else
+      "Synthetic demonstration • Reproducible R statistical engine • No registry data or uploads"))
   server <- function(input, output, session) {
     result <- shiny::reactiveVal(NULL)
     last_error <- shiny::reactiveVal(NULL)

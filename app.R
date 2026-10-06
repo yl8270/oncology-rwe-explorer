@@ -1,4 +1,10 @@
-required <- c("shiny", "survival", "ggplot2", "jsonlite")
+# Explicit dependency declarations for the Shinylive static package scanner.
+# Native R runs use the namespace-qualified engine below.
+if (FALSE) {
+  library(shiny); library(survival); library(ggplot2)
+  library(jsonlite); library(htmltools); library(zip)
+}
+required <- c("shiny", "survival", "ggplot2", "jsonlite", "htmltools", "zip")
 missing <- required[!vapply(required, requireNamespace, logical(1), quietly = TRUE)]
 if (length(missing)) stop("Install dependencies first with Rscript scripts/install_dependencies.R. Missing: ", paste(missing, collapse = ", "))
 source("R/load.R", local = TRUE)

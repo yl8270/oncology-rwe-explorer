@@ -1,9 +1,9 @@
 Type: Project
 Title: Oncology RWE Explorer
-Version: 1.1.0
+Version: 1.2.0
 Description: An educational R Shiny oncology treatment-effect analysis portfolio using independently authored synthetic data only.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.4.0)
-Imports: shiny, survival, ggplot2, jsonlite, htmltools
+Imports: shiny, survival, ggplot2, jsonlite, htmltools, zip
 Suggests: testthat

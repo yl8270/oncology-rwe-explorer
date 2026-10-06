@@ -128,16 +128,12 @@ repro_server <- function(id, result) shiny::moduleServer(id, function(input, out
     shiny::req(result()); jsonlite::write_json(result()$manifest, file, auto_unbox = TRUE, pretty = TRUE, na = "null")
   })
   output$figure <- shiny::downloadHandler(filename = function() "synthetic_survival.pdf", content = function(file) {
-    shiny::req(result()); ggplot2::ggsave(file, plot_survival(result()), width = 9, height = 5.5, device = grDevices::cairo_pdf)
+    shiny::req(result()); ggplot2::ggsave(file, plot_survival(result()), width = 9, height = 5.5, device = vector_pdf_device())
   })
   output$report <- shiny::downloadHandler(filename = function() "synthetic_analysis_report.html", content = function(file) {
     shiny::req(result()); write_analysis_report(result(), file)
   })
   output$bundle <- shiny::downloadHandler(filename = function() "synthetic_analysis_bundle.zip", content = function(file) {
-    shiny::req(result()); folder <- tempfile("oncology-export-"); dir.create(folder)
-    on.exit(unlink(folder, recursive = TRUE), add = TRUE)
-    export_analysis(result(), folder, include_figures = TRUE)
-    old <- setwd(folder); on.exit(setwd(old), add = TRUE)
-    utils::zip(zipfile = file, files = list.files(folder), flags = "-q")
+    shiny::req(result()); write_analysis_bundle(result(), file)
   })
 })

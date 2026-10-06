@@ -1,4 +1,4 @@
-packages <- c("shiny", "survival", "ggplot2", "jsonlite", "htmltools", "testthat")
+packages <- c("shiny", "survival", "ggplot2", "jsonlite", "htmltools", "zip", "testthat")
 missing <- packages[!vapply(packages, requireNamespace, logical(1), quietly = TRUE)]
 # setup-r supplies a Linux binary repository in CI; local installations use CRAN.
 repository <- Sys.getenv("RSPM", unset = "")
