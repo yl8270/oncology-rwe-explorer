@@ -10,6 +10,7 @@
 - Recorded attempted bootstrap resamples and individual failure reasons.
 - Fixed simulation RNG algorithms locally while preserving caller RNG state, including an absent seed.
 - Allowed unselected expanded retention summaries to report an empty sample without aborting a valid core analysis. Selected analyses retain their sample checks.
+- Added explicit Linux libuv development dependency, CI binary repository use, and fail-fast dependency availability checks.
 - Added focused statistical, reproducibility and report-export regression checks.
 
 ## 1.0.0

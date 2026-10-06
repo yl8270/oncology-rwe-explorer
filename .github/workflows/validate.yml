@@ -4,8 +4,9 @@ permissions:
   contents: read
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         r: ['4.4.3', 'release']
     steps:
@@ -14,6 +15,10 @@ jobs:
         with:
           r-version: ${{ matrix.r }}
           use-public-rspm: true
+      - name: Install Linux system dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends libuv1-dev
       - name: Install explicit dependencies
         run: Rscript scripts/install_dependencies.R
       - name: Run statistical and Shiny server tests
