@@ -1,5 +1,7 @@
 # Oncology RWE Explorer
 
+[![Synthetic statistical validation](https://github.com/yl8270/oncology-rwe-explorer/actions/workflows/validate.yml/badge.svg)](https://github.com/yl8270/oncology-rwe-explorer/actions/workflows/validate.yml)
+
 **An interactive real-world oncology treatment-effect analysis platform built in R Shiny, demonstrated exclusively with independently authored synthetic data.**
 
 Designed as a biostatistics / real-world evidence portfolio: inspect the cohort definition, compare baseline characteristics, diagnose weighting, estimate conditional survival, and examine model assumptions before interpreting a result. No NCDB records, private notebook outputs or patient data are included or required. There is no data-upload interface.

@@ -62,7 +62,10 @@ survival_ui <- function(id) {
 }
 
 survival_server <- function(id, result) shiny::moduleServer(id, function(input, output, session) {
-  output$km <- shiny::renderPlot({ shiny::req(result()); plot_survival(result()) }, res = 110)
+  output$km <- shiny::renderPlot({
+    shiny::req(result()); width <- session$clientData[[paste0("output_", session$ns("km"), "_width")]]
+    plot_survival(result(), compact = isTRUE(width < 600))
+  }, res = 110)
   output$clock <- shiny::renderText({
     r <- result(); shiny::req(r)
     sprintf("Time zero: day %d after diagnosis. Horizon: %g months after landmark (day %.1f after diagnosis). Observed at-risk counts are people; weighted risk mass is not a patient count.",

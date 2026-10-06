@@ -31,18 +31,23 @@ plot_weights <- function(result) {
                   title = "Weight distribution") + plot_theme()
 }
 
-plot_survival <- function(result) {
+plot_survival <- function(result, compact = FALSE) {
   selected <- result$km; selected$version <- weighting_label(result$config)
   raw <- result$raw_km; raw$version <- "Unweighted"
   d <- if (result$config$method == "unweighted") raw else rbind(selected, raw); d <- d[order(d$arm, d$version, d$time), ]
-  ggplot2::ggplot(d, ggplot2::aes(time, survival, color = arm, linetype = version)) +
+  plot <- ggplot2::ggplot(d, ggplot2::aes(time, survival, color = arm, linetype = version)) +
     ggplot2::geom_step(linewidth = .9) +
     ggplot2::geom_vline(xintercept = result$config$horizon_months, color = "grey60", linetype = 3) +
     ggplot2::scale_color_manual(values = c("#2D536E", "#00898B")) +
     ggplot2::scale_y_continuous(limits = c(0,1), labels = function(x) paste0(round(100*x), "%")) +
     ggplot2::coord_cartesian(xlim = c(0, min(72, max(d$time)))) +
     ggplot2::labs(x = "Months after landmark", y = "Overall survival probability", color = NULL, linetype = NULL,
-      title = "Conditional overall survival", subtitle = "Point estimates; no naive weighted confidence bands") + plot_theme()
+      title = if (compact) "Landmark survival" else "Conditional overall survival",
+      subtitle = if (compact) "Point estimates; no naive
+weighted confidence bands" else "Point estimates; no naive weighted confidence bands") + plot_theme()
+  if (compact) plot <- plot + ggplot2::guides(color = ggplot2::guide_legend(ncol=1), linetype = ggplot2::guide_legend(ncol=1)) +
+    ggplot2::theme(legend.box="vertical", legend.text=ggplot2::element_text(size=10), plot.subtitle=ggplot2::element_text(size=10))
+  plot
 }
 
 plot_forest <- function(table, label_col = "model") {

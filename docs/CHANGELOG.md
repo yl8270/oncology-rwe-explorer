@@ -4,6 +4,7 @@
 
 - Added an Overview workspace with declared designs, estimands, workflow and completed-run summary.
 - Moved Run analysis to the first visible configuration controls; added intentional pre-run empty states and bootstrap progress.
+- Added compact survival titles and stacked legends for narrow screens.
 - Improved table labels and survival percentages / percentage-point contrasts without rounding exported CSVs.
 - Added escaped standalone HTML reports and four vector PDFs to the reproducibility bundle.
 - Recorded attempted bootstrap resamples and individual failure reasons.
