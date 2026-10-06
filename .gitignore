@@ -1,0 +1,16 @@
+outputs/*
+!outputs/.gitkeep
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+.DS_Store
+rsconnect/
+renv/library/
+renv/staging/
+*.zip
+*.log
+*.ipynb
+# No raw registry extract belongs in this public project.
+data/raw/
+data/private/

@@ -1,0 +1,16 @@
+{
+  "source": "authored-simulation-v1",
+  "seed": 20261005,
+  "disease": "DLBCL",
+  "scenario": "standard",
+  "n": 2500,
+  "missing_rate": 0.04,
+  "conditional_post_landmark_hr": 0.72,
+  "rng": {
+    "kind": "Mersenne-Twister",
+    "normal_kind": "Inversion",
+    "sample_kind": "Rejection"
+  },
+  "empirical_calibration": false,
+  "restricted_data_used": false
+}
